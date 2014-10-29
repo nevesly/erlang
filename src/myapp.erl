@@ -6,10 +6,10 @@
 %%% @end
 %%%-----------------------------------------------------------------------------
 
--module(myrebarapp).
+-module(myapp).
 -compile(export_all).
 
--define(APP_NAME, 'myapp').
+-define(APP_NAME, myapp).
 
 start() ->
     % ranch
@@ -18,9 +18,12 @@ start() ->
     start_lager(),
     % TODO: ranch tcp listener
 
+    % start app
+    application:start(?APP_NAME),
+
     ok.
 
 start_lager() ->
-    application:start(lager).
+    application:start(lager),
     lager:set_loglevel(lager_console_backend, error).
  
