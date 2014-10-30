@@ -1,7 +1,7 @@
 %%%-----------------------------------------------------------------------------
 %%% @author Seven Lu, <nevesly1109@gmail.com>
 %%%  [http://www.sevenlu.com/]
-%%% @copyright 2014 Seven Lu. All rights reserved.
+%%% @copyright (C) 2014. Seven Lu
 %%% @doc myapp of mochiweb
 %%% @end
 %%%-----------------------------------------------------------------------------

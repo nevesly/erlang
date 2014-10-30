@@ -1,7 +1,8 @@
 %%%-----------------------------------------------------------------------------
 %%% @author Seven Lu, <nevesly1109@gmail.com>
 %%%  [http://www.sevenlu.com/]
-%%% @copyright 2014 Seven Lu. All rights reserved.
+%%% @copyright (C) 2014. Seven Lu
+%%% @version 0.0.1
 %%% @doc start of the project
 %%% @end
 %%%-----------------------------------------------------------------------------
