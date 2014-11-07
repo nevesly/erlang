@@ -16,5 +16,6 @@ start_link(Root) ->
 
 init([Root]) ->
     Strategy = {one_for_one, 1, 60},
-    Childs = [{xx, {logger, start_link, [xx, Root]}, permantant, 10000, worker, [logger]}],
+    Childs = [{StatLogger, {logger, start_link, [StatLogger, Root]}, permantant, 10000, worker, [logger]} 
+                    || StatLogger <- logger_statistic:loggers()],
     {ok, {Strategy, Childs}}.
