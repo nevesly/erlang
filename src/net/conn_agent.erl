@@ -19,7 +19,7 @@ init(Ref, Socket, Transport, _Opts) ->
         Socket, [
             binary,
             {nodelay, true},
-            {packet, 4},
+            {packet, raw},
             {active, true}]),
     ProtoOpts = ranch_server:get_protocol_options(Ref),
     ConnMod = proplists:get_value(conn_mod, ProtoOpts),
@@ -31,9 +31,9 @@ loop(Socket, ConnMod, State, Transport) ->
     lager:debug("Socket[~p], State[~p]", [Socket, State]),
     receive
         {tcp, Socket, Bin} ->
-            lager:debug("Bin[~p]", [Bin]),
+            lager:debug("received Bin[~p]", [Bin]),
             NewState = 
-                case catch ConnMod:con_data(Socket, Bin, State) of
+                case catch ConnMod:conn_data(Socket, Bin, State) of
                     State1 when element(1, State1) =:= state -> State1;
                     InvalidState ->
                         lager:debug("{tcp, Socket, Bin}, InvalidState[~p]", [InvalidState]),
