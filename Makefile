@@ -7,3 +7,7 @@ all:
 test:
 	rm -rf .eunit
 	@$(REBAR) compile eunit
+
+clean:
+	@$(REBAR) clean
+
