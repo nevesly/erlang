@@ -28,6 +28,9 @@ start() ->
     % start TCP listener
     {ok, _} = start_ranch_listener(),
 
+    % ensure
+    ensure_module(),
+
     io:format("************** myapp is running ******************~n"),
 
     ok.
@@ -43,6 +46,21 @@ start_ranch_listener() ->
             tcp_myapp, 16,
             ranch_tcp, [{port, ListenPort}, {max_connections, 20000}],
             conn_agent, [{conn_mod, connection}]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Internal API
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ensure_module() -> ensure_module(ensure_list()).
+
+ensure_module([]) -> ok;
+ensure_module([Mod|T]) ->
+    case code:ensure_loaded(Mod) of
+        {module, Mod} -> ensure_module(T);
+        {error, What} -> io:format("module loaded failed, error: [~p]~n", [What])
+    end.
+
+ensure_list() ->
+    [mochiweb_util].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% TEST
