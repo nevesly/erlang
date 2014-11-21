@@ -17,9 +17,9 @@ conn_connected(_Sock) -> {ok, #state{}}.
 %
 conn_closed(_Sock, #state{} = S) -> lager:debug("state[~p]", [S]), ok.
 
-%
+% conn_data: do the proto request
 conn_data(Sock, Data, #state{acc = Acc} = State) ->
-    send_msg(Sock, binary:list_to_bin(io_lib:format(<<"hello, data received[~p], acc=~p">>, [Data, Acc + 1]))),
+    send_simple_msg(Sock, binary:list_to_bin(io_lib:format(<<"hello, data received[~p], acc=~p">>, [Data, Acc + 1]))),
     State#state{acc = Acc + 1}.
 
 %
@@ -32,12 +32,15 @@ conn_control(Sock, {stop, Reason}, _State) ->
     gen_tcp:close(Sock),
     stop;
 conn_control(Sock, Req, #state{acc = Acc} = State) ->
-    send_msg(Sock, binary:list_to_bin(io_lib:format(<<"hello, acc=~p">>, [Acc+1]))),
+    send_simple_msg(Sock, binary:list_to_bin(io_lib:format(<<"hello, acc=~p">>, [Acc+1]))),
     State#state{acc = Acc + 1}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Internal API
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-send_msg(Sock, Bin) ->
-    lager:debug("send_msg: Bin[~p]", [Bin]),
+send_simple_msg(Sock, Bin) ->
+    lager:debug("send_simple_msg: Bin[~p]", [Bin]),
     gen_tcp:send(Sock, Bin).
+
+send_msg(Sock, Bin) ->
+    todo.

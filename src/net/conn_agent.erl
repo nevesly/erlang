@@ -32,6 +32,7 @@ loop(Socket, ConnMod, State, Transport) ->
     receive
         {tcp, Socket, Bin} ->
             lager:debug("received Bin[~p]", [Bin]),
+            % do the proto request
             NewState = 
                 case catch ConnMod:conn_data(Socket, Bin, State) of
                     State1 when element(1, State1) =:= state -> State1;
