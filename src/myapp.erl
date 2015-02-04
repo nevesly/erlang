@@ -14,8 +14,8 @@
 -include_lib("eunit/include/eunit.hrl").
 -endif.
 
-%
-start() ->
+start() -> start(['.', '.']).
+start([Root, WorkRoot]) ->
     % ranch
     application:start(ranch),
 
