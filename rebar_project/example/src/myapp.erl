@@ -8,14 +8,14 @@
 %%%-----------------------------------------------------------------------
 
 -module(myapp).
--compile(export_all).
+-export([start/0, start/1]).
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
 -endif.
 
 start() -> start(['.', '.']).
-start([Root, WorkRoot]) ->
+start([_Root, _WorkRoot]) ->
     % ranch
     application:start(ranch),
 
