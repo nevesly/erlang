@@ -18,12 +18,12 @@ wait_cmd() ->
     Cmd = string:strip(io:get_line("command> "), both, $\n),
     do_cmd(Cmd).
 
+%% @doc to run the commend 
+%% @end
 do_cmd("quit") -> erlang:halt();
 do_cmd("") -> wait_cmd();
 do_cmd(Cmd) ->
     [Cmd1 | Params] = string:tokens(Cmd, " "),
-    io:format("Cmd: ~p~n", [Cmd1]),
-    io:format("Param: ~p~n", [Params]),
     case parse_cmd(Cmd1, Params) of
         undefined -> io:format("Unknown command!~n");
         {Cmd1, NewParams} ->
@@ -32,6 +32,8 @@ do_cmd(Cmd) ->
     end,
     wait_cmd().
 
+%% @doc command parameters must convert to the erlang data type,
+%% @end
 parse_cmd(Cmd, Params) -> parse_cmd(Cmd, commands(), Params).
 parse_cmd(_Cmd, [], _Params) -> undefined;
 parse_cmd(Cmd, [{Cmd, ParamsType}|_], Params) -> {Cmd, parse_param(ParamsType, Params, [])};
@@ -43,6 +45,8 @@ parse_param([H|T], [P|Params], Acc) ->
     parse_param(T, Params, Acc1).
 
 %%------------------------------------------------------
+%% the implement of the commands
+%%------------------------------------------------------
 ls([]) ->
     io:format("~p~n", [os:cmd("ls")]).
 
@@ -50,7 +54,6 @@ echo([S]) ->
     io:format("~s~n", [S]).
 
 %% print the help string
-%% @ret -> string()
 help([]) -> io:format(help_string()).
 help_string() ->
     Head = io_lib:format("
